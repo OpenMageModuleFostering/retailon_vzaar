@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+        <!--/**
+        * This magento extension is created by RetailOn Inc for Vzaar.
+        * Visit us at http://www.retailon.net
+        * Author: Hashid Hameed
+        * Email: me@hashid.in
+        * Date: 25/2/14
+        * Time: 1:03 PM
+        *
+        * Please do not reproduce any part of the extension without prior permission.
+        */-->
+        <layout version="0.1.0">
+    <retailonvzaar_adminhtml_index_index>
+        <reference name="head">
+            <action method="addJs"><script>vzaar/jquery.min.js</script></action>
+            <action method="addJs"><script>vzaar/jquery.fancybox.pack.js</script></action>
+            <action method="addJs"><script>vzaar/vzaar.js</script></action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>vzaar/jquery.fancybox.css</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="retailon_vzaar/adminhtml_alpha" name="videolist"/>
+        </reference>
+    </retailonvzaar_adminhtml_index_index>
+        </layout>

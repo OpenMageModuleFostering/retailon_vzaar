@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * This magento extension is created by RetailOn Inc for Vzaar.
+ * Visit us at http://www.retailon.net
+ * Author: Hashid Hameed
+ * Email: me@hashid.in
+ * Date: 25/2/14
+ * Time: 1:03 PM
+ *
+ * Please do not reproduce any part of the extension without prior permission.
+ */
+
+//$videos = $videos2 = $videoscat = $globalvid = array();
+$_product = $this->getProduct();
+$videos = $_product->getVzaarvid();
+$videos=explode(',',$videos);
+$videos2 = $_product->getVzaarvidid();
+$videos2=explode(',',$videos2);
+$_helper=Mage::helper('catalog/output');
+if ($_category_detail = Mage::registry('current_category'))
+$videoscat = $_category_detail->getVzaarcat();
+$videoscat=explode(',',$videoscat);
+
+$globalvid = Mage::getStoreConfig('vzaar_section/vzaar_group/vzaar_globalvid');
+$globalvid = explode(',',$globalvid);
+
+$videos = array_merge($videos2,$videos, $videoscat, $globalvid); //merging all the video arrays from Category, Product (2) and Default
+
+$autoplay = Mage::getStoreConfig('vzaar_section/vzaar_group/vzaar_autoplay');
+if($autoplay) $autoplay="true";
+else $autoplay ="false";
+?>
+<?php if(array_filter($videos)) {
+     echo '<div class="more-views"><h2>Videos</h2><ul>';
+}
+?>
+    <?php foreach ($videos as $vid)
+    {
+        if($vid!=''):
+        echo'<li>
+        <a id="'.$vid.'" class="vzaar fancybox.iframe" rel="group" href="http://view.vzaar.com/'.$vid.'/player?autoplay='.$autoplay.'">
+        <img src = "http://view.vzaar.com/'.$vid.'/thumb" height="100%" width="100%"/>
+        </a>
+        </li>';
+            endif;
+    }
+    ?>
+</ul></div>
+<?php if(Mage::getStoreConfig('vzaar_section/vzaar_group/vzaar_style')): ?>
+<script type="text/javascript">
+    var jq = jQuery.noConflict();
+    jq(document).ready(function(){
+        jq(".vzaar").click(function(e){
+            e.preventDefault();
+            jq(".product-image").empty();
+            jq(".zoom").remove();
+            jq(".zoom-notice").remove();
+            /*jq(".product-image").append('<div style="margin:auto !important;position: absolute !important;top:0  !important;' +
+                'left:0  !important;bottom:0  !important;right:0  !important;height:50px;width:50px"' +
+                'id="vzaarloading"><img src="<?php echo Mage::getBaseUrl('js') ?>/vzaar/ajax-loader.gif"/></div>');*/
+            var vid = this.id;
+            var embed = '<iframe allowFullScreen allowTransparency="true"' +
+                'class="vzaar-video-player" frameborder="0" height="221"' +
+                'id="vzvd-'+vid+'" mozallowfullscreen name="vzvd-'+vid+'" src="http://view.vzaar.com/'+vid+'/player?autoplay=<?php echo $autoplay ?>"' +
+                'title="vzaar video player" type="text/html" webkitAllowFullScreen width="265"></iframe>';
+            jq(".product-image").append(embed);
+            jq(".vzaar-video-player").load(function(){
+//                jq("#vzaarloading").remove();
+            });
+        });
+    });
+</script>
+<?php endif; ?>
+<?php if(!Mage::getStoreConfig('vzaar_section/vzaar_group/vzaar_style')): ?>
+<script type="text/javascript">
+    var jq = jQuery.noConflict();
+    jq(document).ready(function() {
+        jq(".vzaar").fancybox({
+            maxWidth    : 800,
+            maxHeight   : 600,
+           fitToView   : true,
+/*          width       : '70%',
+            height      : '70%',*/
+            autoSize    : true,
+            closeClick  : false,
+            openEffect  : 'none',
+            closeEffect : 'none',
+            nextClick : false,
+            arrows : false,
+            closeBtn : true
+        });
+    });
+</script>
+<?php endif; ?>

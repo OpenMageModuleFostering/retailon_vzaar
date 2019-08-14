@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Retailon_Vzaar",
+    "type": "magento-module",
+    "license": "MIT",
+    "homepage": "",
+    "description": "Connect your Vzaar account and Magento store! Show your Vzaar videos on product pages in a few clicks!",
+    "authors": [
+    {
+        "name": "Hashid Hameed",
+        "email": "hashid@retailon.in"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

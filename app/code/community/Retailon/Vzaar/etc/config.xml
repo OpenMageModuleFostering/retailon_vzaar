@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<!--
+        /**
+        * This magento extension is created by RetailOn Inc for Vzaar.
+        * Visit us at http://www.retailon.net
+        * Author: Hashid Hameed
+        * Email: me@hashid.in
+        * Date: 25/2/14
+        * Time: 1:03 PM
+        *
+        * Please do not reproduce any part of the extension without prior permission.
+        */
+        -->
+
+<config>
+    <modules>
+        <Retailon_Vzaar>
+            <version>1.0.0</version>
+        </Retailon_Vzaar>
+    </modules>
+    <frontend>
+        <layout>
+            <updates>
+                <retailon_vzaar> <!--any name-->
+                    <file>retailonvzaar.xml</file>
+                </retailon_vzaar>
+            </updates>
+        </layout>
+        <routers>
+            <betarouter>
+                <use>standard</use>
+                <args>
+                    <module>Retailon_Vzaar</module>
+                    <frontName>beta</frontName>
+                </args>
+            </betarouter>
+        </routers>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <retailon_vzaar>
+                    <file>vzaaradmin.xml</file>
+                </retailon_vzaar>
+            </updates>
+        </layout>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <vzaar_section translate="title">
+                                            <title>Beta</title>
+                                            <sort_order>100</sort_order>
+                                        </vzaar_section>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <menu>
+            <betamenu module="adminhtml">
+                <title>Vzaar</title>
+                <sort_order>80</sort_order>
+                <children>
+                    <vzaarlist>
+                        <title>Video List</title>
+                        <action>retailonvzaar/adminhtml_index/index</action>
+                    </vzaarlist>
+                    <betasettings>
+                        <title>Settings</title>
+                        <action>adminhtml/system_config/edit/section/vzaar_section</action>
+                        <sort_order>999</sort_order>
+                    </betasettings>
+                </children>
+            </betamenu>
+        </menu>
+    </adminhtml>
+    <global>
+        <blocks>
+            <retailon_vzaar>
+                <class>Retailon_Vzaar_Block</class>
+            </retailon_vzaar>
+            <catalog>
+                <!--                <rewrite>
+                    <product_view>Retailon_Vzaar_Block_Product_View</product_view>
+                </rewrite>-->
+                <rewrite>
+                    <product_view_media>Retailon_Vzaar_Block_Product_View_Media</product_view_media>
+                </rewrite>
+            </catalog>
+        </blocks>
+        <helpers>
+            <vzaarhelper>
+                <class>Retailon_Vzaar_Helper</class>
+            </vzaarhelper>
+        </helpers>
+        <models>
+            <vzaar>
+                <class>Retailon_Vzaar_Model</class>
+                <resourceModel>beta_resource</resourceModel>
+            </vzaar>
+            <beta_resource>
+                <class>Retailon_Vzaar_Model_Resource</class>
+                <entities>
+                    <vzaarlist>
+                        <table>vzaarvideos</table>
+                    </vzaarlist>
+                </entities>
+            </beta_resource>
+        </models>
+        <resources>
+            <beta_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </beta_write>
+            <beta_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </beta_read>
+            <vzaar_setup>
+                <setup>
+                    <module>Retailon_Vzaar</module>
+                    <class>Retailon_Vzaar_Model_Resource_Setup</class>
+                </setup>
+            </vzaar_setup>
+        </resources>
+        <events>
+            <catalog_product_save_after>
+                <observers>
+                    <retailon_vzaar>
+                        <type>singleton</type>
+                        <class>Retailon_Vzaar_Model_Observer</class>
+                        <method>setActiveVideos</method>
+                    </retailon_vzaar>
+                </observers>
+            </catalog_product_save_after>
+        </events>
+    </global>
+    <default>
+        <vzaar_section>
+            <vzaar_group>
+                <vzaar_autoplay>1</vzaar_autoplay>
+                <beta_enable>1</beta_enable>
+            </vzaar_group>
+        </vzaar_section>
+    </default>
+    <admin>
+        <routers>
+            <retailonvzaar>
+                <use>admin</use>
+                <args>
+                    <module>Retailon_Vzaar</module>
+                    <frontName>retailonvzaar</frontName>
+                </args>
+            </retailonvzaar>
+        </routers>
+    </admin>
+</config>
